@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.thermondo.androidchallenge.features.core.domain.model.Launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -20,17 +21,23 @@ class Settings @Inject constructor(
         }
     }
 
-    private val keyIsBiometricAuthEnabled = booleanPreferencesKey("IS_BIOMETRIC_AUTH_ENABLED")
+    private val keyBookmarkedLaunches = stringPreferencesKey("BOOKMARKED_LAUNCHES")
 
-    fun getBiometricAuthEnabled(): Flow<Boolean> {
+    fun getBookmarkedLaunches(): Flow<List<Launch>> {
         return dataStore.data.map { settings ->
-            settings[keyIsBiometricAuthEnabled] ?: false
+            settings[keyBookmarkedLaunches]?.split("|")?.mapNotNull {
+                fromJson<Launch>(it)
+            } ?: emptyList()
         }
     }
 
-    suspend fun setBiometricAuthEnabled(enabled: Boolean) {
+    suspend fun setBookmarkedLaunches(launches: List<Launch>) {
         dataStore.edit { settings ->
-            settings[keyIsBiometricAuthEnabled] = enabled
+            if (launches.isEmpty()) {
+                settings.remove(keyBookmarkedLaunches)
+            } else {
+                settings[keyBookmarkedLaunches] = launches.joinToString("|") { toJson(it) }
+            }
         }
     }
 }

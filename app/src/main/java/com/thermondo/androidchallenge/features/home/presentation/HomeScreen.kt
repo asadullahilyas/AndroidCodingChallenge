@@ -1,32 +1,127 @@
 package com.thermondo.androidchallenge.features.home.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.thermondo.androidchallenge.features.home.presentation.all_launches.AllLaunchesScreen
+import com.thermondo.androidchallenge.features.home.presentation.bookmarked_launches.BookmarkedLaunchesScreen
+import com.thermondo.androidchallenge.ui.theme.ContrastingColor
+import com.thermondo.androidchallenge.ui.theme.ThemeBackgroundColor
+import com.thermondo.androidchallenge.ui.theme.ThemeColor
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator) {
+fun HomeScreen() {
 
     val viewModel: HomeScreenViewModel = hiltViewModel()
 
-    Column {
-        Button(
-            modifier = Modifier.align(alignment = CenterHorizontally),
-            onClick = {
-            viewModel.onButtonPressed()
-        }) {
-            Text(text = "Press Me")
+    val homeScreenOption by viewModel.homeScreenOption
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ThemeBackgroundColor)
+    ) {
+        when (homeScreenOption) {
+            HomeScreenOption.AllLaunches -> AllLaunchesScreen()
+            HomeScreenOption.BookmarkedLaunches -> BookmarkedLaunchesScreen()
         }
-        Text(text = viewModel.response.value)
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .align(BottomCenter)
+                .padding(bottom = 8.dp)
+                .padding(8.dp)
+                .border(width = 1.dp, shape = RoundedCornerShape(20.dp), color = ThemeColor)
+                .clip(shape = RoundedCornerShape(20.dp))
+                .background(ThemeBackgroundColor.copy(alpha = 0.9F))
+                .padding(8.dp)
+        ) {
+            IconButton(
+                modifier = Modifier
+                    .weight(1.0F)
+                    .align(CenterVertically),
+                onClick = {
+                    viewModel.onUserEvent(HomeScreenUserEvent.GoToAllLaunches)
+                }) {
+                Column(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.List,
+                        contentDescription = "Show list of launches",
+                        tint = when (homeScreenOption) {
+                            HomeScreenOption.AllLaunches -> ContrastingColor
+                            HomeScreenOption.BookmarkedLaunches -> Color.White
+                        }
+                    )
+                    Text(
+                        text = "All Launches",
+                        fontSize = 10.sp,
+                        color = when (homeScreenOption) {
+                            HomeScreenOption.AllLaunches -> ContrastingColor
+                            HomeScreenOption.BookmarkedLaunches -> Color.White
+                        }
+                    )
+                }
+            }
+            IconButton(
+                modifier = Modifier
+                    .weight(1.0F)
+                    .align(CenterVertically),
+                onClick = {
+                    viewModel.onUserEvent(HomeScreenUserEvent.GoToBookmarkedLaunches)
+                }) {
+                Column(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "Show list of Bookmarked Launches",
+                        tint = when (homeScreenOption) {
+                            HomeScreenOption.AllLaunches -> Color.White
+                            HomeScreenOption.BookmarkedLaunches -> ContrastingColor
+                        }
+                    )
+                    Text(
+                        text = "Bookmarked Launches",
+                        fontSize = 10.sp,
+                        color = when (homeScreenOption) {
+                            HomeScreenOption.AllLaunches -> Color.White
+                            HomeScreenOption.BookmarkedLaunches -> ContrastingColor
+                        }
+                    )
+                }
+            }
+        }
     }
 }

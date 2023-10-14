@@ -1,6 +1,6 @@
 package com.thermondo.androidchallenge.api
 
-import com.thermondo.androidchallenge.features.home.data.dto.LaunchResponse
+import com.thermondo.androidchallenge.features.core.data.dto.LaunchResponse
 import retrofit2.Response
 import retrofit2.http.*
 

@@ -1,10 +1,8 @@
 package com.thermondo.androidchallenge.api.response
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapter
+import com.thermondo.androidchallenge.common.fromJson
 import java.nio.charset.Charset
 
-@OptIn(ExperimentalStdlibApi::class)
 class ApiResponse<T : Any>(
     private val response: retrofit2.Response<T>
 ) {
@@ -16,7 +14,7 @@ class ApiResponse<T : Any>(
     val error: ErrorResponse? by lazy {
         try {
             val strResponse = response.errorBody()?.byteString()?.string(Charset.defaultCharset()) ?: return@lazy null
-            Moshi.Builder().build().adapter<ErrorResponse>().fromJson(strResponse)
+            fromJson<ErrorResponse>(strResponse)
         } catch (e: Exception) {
             e.printStackTrace()
             null

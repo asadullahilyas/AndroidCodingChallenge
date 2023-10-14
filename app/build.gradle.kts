@@ -79,7 +79,7 @@ dependencies {
     ksp(libs.squareup.moshi.kotlin.codegen)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.coil.compose)
+    implementation(libs.glide.compose)
     implementation(libs.joda.time)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)

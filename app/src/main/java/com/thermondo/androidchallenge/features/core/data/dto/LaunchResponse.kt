@@ -1,8 +1,8 @@
-package com.thermondo.androidchallenge.features.home.data.dto
-
+package com.thermondo.androidchallenge.features.core.data.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.thermondo.androidchallenge.features.core.domain.model.Launch
 
 @JsonClass(generateAdapter = true)
 data class LaunchResponse(
@@ -11,9 +11,9 @@ data class LaunchResponse(
     @Json(name = "capsules")
     val capsules: List<String>,
     @Json(name = "cores")
-    val cores: List<Core>,
+    val coreResponses: List<CoreResponse>,
     @Json(name = "crew")
-    val crew: List<Crew>,
+    val crewResponses: List<CrewResponse>,
     @Json(name = "date_local")
     val dateLocal: String,
     @Json(name = "date_precision")
@@ -25,9 +25,9 @@ data class LaunchResponse(
     @Json(name = "details")
     val details: String?,
     @Json(name = "failures")
-    val failures: List<Failure>,
+    val failureResponses: List<FailureResponse>,
     @Json(name = "fairings")
-    val fairings: Fairings?,
+    val fairingsResponse: FairingsResponse?,
     @Json(name = "flight_number")
     val flightNumber: Int,
     @Json(name = "id")
@@ -37,7 +37,7 @@ data class LaunchResponse(
     @Json(name = "launchpad")
     val launchpad: String,
     @Json(name = "links")
-    val links: Links,
+    val linksResponse: LinksResponse,
     @Json(name = "name")
     val name: String,
     @Json(name = "net")
@@ -60,4 +60,36 @@ data class LaunchResponse(
     val upcoming: Boolean,
     @Json(name = "window")
     val window: Int?
-)
+) {
+    fun toLaunch(): Launch {
+        return Launch(
+            autoUpdate = autoUpdate,
+            capsules = capsules,
+            cores = coreResponses.map { it.toCore() },
+            crew = crewResponses.map { it.toCrew() },
+            dateLocal = dateLocal,
+            datePrecision = datePrecision,
+            dateUnix = dateUnix,
+            dateUtc = dateUtc,
+            details = details,
+            failures = failureResponses.map { it.toFailure() },
+            fairings = fairingsResponse?.toFairings(),
+            flightNumber = flightNumber,
+            id = id,
+            launchLibraryId = launchLibraryId,
+            launchpad = launchpad,
+            links = linksResponse.toLinks(),
+            name = name,
+            net = net,
+            payloads = payloads,
+            rocket = rocket,
+            ships = ships,
+            staticFireDateUnix = staticFireDateUnix,
+            staticFireDateUtc = staticFireDateUtc,
+            success = success,
+            tbd = tbd,
+            upcoming = upcoming,
+            window = window
+        )
+    }
+}

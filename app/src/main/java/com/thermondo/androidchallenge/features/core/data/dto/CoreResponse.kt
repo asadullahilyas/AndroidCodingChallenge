@@ -1,11 +1,12 @@
-package com.thermondo.androidchallenge.features.home.data.dto
+package com.thermondo.androidchallenge.features.core.data.dto
 
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.thermondo.androidchallenge.features.core.domain.model.Core
 
 @JsonClass(generateAdapter = true)
-data class Core(
+data class CoreResponse(
     @Json(name = "core")
     val core: String?,
     @Json(name = "flight")
@@ -24,4 +25,18 @@ data class Core(
     val legs: Boolean?,
     @Json(name = "reused")
     val reused: Boolean?
-)
+) {
+    fun toCore(): Core {
+        return Core(
+            core = core,
+            flight = flight,
+            gridfins = gridfins,
+            landingAttempt = landingAttempt,
+            landingSuccess = landingSuccess,
+            landingType = landingType,
+            landpad = landpad,
+            legs = legs,
+            reused = reused
+        )
+    }
+}

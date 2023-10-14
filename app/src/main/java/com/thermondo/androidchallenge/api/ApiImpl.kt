@@ -1,7 +1,7 @@
 package com.thermondo.androidchallenge.api
 
 import com.thermondo.androidchallenge.api.response.ApiResponse
-import com.thermondo.androidchallenge.features.home.data.dto.LaunchResponse
+import com.thermondo.androidchallenge.features.core.data.dto.LaunchResponse
 import javax.inject.Inject
 
 class ApiImpl @Inject constructor(private val apiInterface: ApiInterface) {

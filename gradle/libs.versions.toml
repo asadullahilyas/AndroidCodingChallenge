@@ -18,7 +18,7 @@ moshi-version = "1.14.0"
 okhttp-version = "4.11.0"
 okhttp-logging-version = "4.10.0"
 kotlinx-coroutines-version = "1.7.1"
-coil-compose-version = "2.4.0"
+glide-compose-version = "1.0.0-beta01"
 joda-time-version = "2.12.5"
 compose-destinations-version = "1.9.54"
 datastore-version = "1.0.0"
@@ -45,7 +45,7 @@ squareup-moshi-converter = { group = "com.squareup.retrofit2", name = "converter
 squareup-moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi-version" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-version" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-version" }
-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose-version" }
+glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide-compose-version" }
 joda-time = { group = "joda-time", name = "joda-time", version.ref = "joda-time-version" }
 compose-destinations = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "compose-destinations-version" }
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "compose-destinations-version" }
