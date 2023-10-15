@@ -1,5 +1,6 @@
 package com.thermondo.androidchallenge.features.home.presentation.all_launches
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -9,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -63,12 +65,13 @@ fun AllLaunchesScreen(modifier: Modifier = Modifier) {
                 )
             } else {
 
+                val totalColumns = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) 2 else 3
+
                 LazyVerticalGrid(
                     modifier = modifier,
-                    columns = GridCells.Fixed(2),
+                    columns = GridCells.Fixed(totalColumns),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
-
                 ) {
                     items(allLaunches.size) { index ->
                         val launchItem = allLaunches[index]
@@ -84,9 +87,11 @@ fun AllLaunchesScreen(modifier: Modifier = Modifier) {
                             }
                         )
                     }
-                    item {
-                        Spacer(modifier = Modifier.height(100.dp))
-                        Spacer(modifier = Modifier.height(100.dp))
+
+                    for (i in 0 until totalColumns) {
+                        item {
+                            Box(modifier = Modifier.height(100.dp))
+                        }
                     }
                 }
             }

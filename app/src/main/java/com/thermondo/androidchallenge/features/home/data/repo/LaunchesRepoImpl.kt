@@ -6,6 +6,7 @@ import com.thermondo.androidchallenge.common.Settings
 import com.thermondo.androidchallenge.features.core.domain.model.Launch
 import com.thermondo.androidchallenge.features.home.domain.repo.LaunchesRepo
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -30,21 +31,21 @@ class LaunchesRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllBookmarkedLaunches(): List<Launch> {
-        return settings.getBookmarkedLaunches().first()
-    }
-
     override suspend fun addToBookmark(launch: Launch) {
         settings.setBookmarkedLaunches(
             listOf(
-                *getAllBookmarkedLaunches().toTypedArray(), launch
+                *getAllBookmarkedLaunches().first().toTypedArray(), launch
             )
         )
     }
 
     override suspend fun removeFromBookmark(launch: Launch) {
-        val allBookmarks = getAllBookmarkedLaunches().toMutableList()
+        val allBookmarks = getAllBookmarkedLaunches().first().toMutableList()
         allBookmarks.removeIf { it.id == launch.id }
         settings.setBookmarkedLaunches(allBookmarks)
+    }
+
+    override fun getAllBookmarkedLaunches(): Flow<List<Launch>> {
+        return settings.getBookmarkedLaunches()
     }
 }
