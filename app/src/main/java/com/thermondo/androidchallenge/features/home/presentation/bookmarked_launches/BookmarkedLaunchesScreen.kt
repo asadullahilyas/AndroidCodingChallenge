@@ -16,11 +16,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.thermondo.androidchallenge.common.LaunchItem
 
 @Composable
 fun BookmarkedLaunchesScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator
 ) {
     val viewModel: BookmarkedLaunchesViewModel = hiltViewModel()
 
@@ -65,10 +67,16 @@ fun BookmarkedLaunchesScreen(
                             viewModel.onUserEvent(
                                 BookmarkedUserEvent.RemoveFromBookmarks(launchItem)
                             )
+                        },
+                        onClicked = {
+                            viewModel.onUserEvent(
+                                BookmarkedUserEvent.OpenDetails(navigator, launchItem)
+                            )
                         }
                     )
                 }
-                for (i in 0 until totalColumns) {
+
+                repeat(totalColumns) {
                     item {
                         Box(modifier = Modifier.height(100.dp))
                     }

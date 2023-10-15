@@ -14,11 +14,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.thermondo.androidchallenge.common.LaunchItem
 import com.thermondo.androidchallenge.common.isNeitherNullNorEmptyNorBlank
+import com.thermondo.androidchallenge.features.destinations.LaunchDetailsScreenDestination
 
 @Composable
-fun AllLaunchesScreen(modifier: Modifier = Modifier) {
+fun AllLaunchesScreen(
+    modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator
+) {
 
     val viewModel: AllLaunchesViewModel = hiltViewModel()
 
@@ -84,11 +89,17 @@ fun AllLaunchesScreen(modifier: Modifier = Modifier) {
                                 viewModel.onUserEvent(
                                     AllLaunchesUserEvent.ToggleBookmark(launchItem)
                                 )
+                            },
+                            onClicked = {
+                                println(launchItem.toString())
+                                viewModel.onUserEvent(
+                                    AllLaunchesUserEvent.OpenDetails(navigator, launchItem)
+                                )
                             }
                         )
                     }
 
-                    for (i in 0 until totalColumns) {
+                    repeat(totalColumns) {
                         item {
                             Box(modifier = Modifier.height(100.dp))
                         }

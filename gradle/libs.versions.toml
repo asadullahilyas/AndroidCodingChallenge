@@ -16,12 +16,13 @@ hilt-navigation-compose = "1.0.0"
 retrofit-version = "2.9.0"
 moshi-version = "1.14.0"
 okhttp-version = "4.11.0"
-okhttp-logging-version = "4.10.0"
-kotlinx-coroutines-version = "1.7.1"
+okhttp-logging-version = "4.11.0"
+kotlinx-coroutines-version = "1.7.3"
 glide-compose-version = "1.0.0-beta01"
 joda-time-version = "2.12.5"
 compose-destinations-version = "1.9.54"
 datastore-version = "1.0.0"
+lottie-animations-version = "6.1.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -51,6 +52,7 @@ compose-destinations = { group = "io.github.raamcosta.compose-destinations", nam
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "compose-destinations-version" }
 datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore-version" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-version" }
+lottie-animations = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie-animations-version"}
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

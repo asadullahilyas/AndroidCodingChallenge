@@ -1,7 +1,10 @@
 package com.thermondo.androidchallenge.features.core.domain.model
 
+import android.os.Parcelable
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class Links(
     val article: String?,
@@ -12,4 +15,4 @@ data class Links(
     val webcast: String?,
     val wikipedia: String?,
     val youtubeId: String?
-)
+) : Parcelable

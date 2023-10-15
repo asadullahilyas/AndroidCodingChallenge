@@ -2,7 +2,9 @@ package com.thermondo.androidchallenge.features.home.presentation.bookmarked_lau
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.thermondo.androidchallenge.features.core.domain.model.Launch
+import com.thermondo.androidchallenge.features.destinations.LaunchDetailsScreenDestination
 import com.thermondo.androidchallenge.features.home.domain.usecase.GetAllBookmarkedLaunchesUseCase
 import com.thermondo.androidchallenge.features.home.domain.usecase.ToggleBookmarkUseCase
 import com.thermondo.androidchallenge.features.home.presentation.all_launches.LaunchItemToDisplay
@@ -20,8 +22,10 @@ class BookmarkedLaunchesViewModel @Inject constructor(
 
     private val allBookmarkedLaunches = mutableListOf<Launch>()
 
-    private val _allBookmarkedLaunchesToDisplay: MutableStateFlow<List<LaunchItemToDisplay>> = MutableStateFlow(emptyList())
-    val allBookmarkedLaunchesToDisplay: StateFlow<List<LaunchItemToDisplay>> = _allBookmarkedLaunchesToDisplay
+    private val _allBookmarkedLaunchesToDisplay: MutableStateFlow<List<LaunchItemToDisplay>> =
+        MutableStateFlow(emptyList())
+    val allBookmarkedLaunchesToDisplay: StateFlow<List<LaunchItemToDisplay>> =
+        _allBookmarkedLaunchesToDisplay
 
     fun loadBookmarkedLaunches() {
         viewModelScope.launch {
@@ -34,7 +38,7 @@ class BookmarkedLaunchesViewModel @Inject constructor(
                     LaunchItemToDisplay(
                         it.id,
                         it.links.flickr?.original?.firstOrNull(),
-                        LaunchItemToDisplay.getReadableDate(it) ?: "N/A",
+                        LaunchItemToDisplay.getReadableDate(it),
                         it.name,
                         true
                     )
@@ -46,6 +50,7 @@ class BookmarkedLaunchesViewModel @Inject constructor(
     fun onUserEvent(userEvent: BookmarkedUserEvent) {
         when (userEvent) {
             is BookmarkedUserEvent.RemoveFromBookmarks -> removeFromBookmarks(userEvent.launchItemToDisplay)
+            is BookmarkedUserEvent.OpenDetails -> openDetails(userEvent.navigator, userEvent.launch)
         }
     }
 
@@ -55,8 +60,19 @@ class BookmarkedLaunchesViewModel @Inject constructor(
             toggleBookmarkUseCase(launch, false)
         }
     }
+
+    private fun openDetails(navigator: DestinationsNavigator, launchItemToDisplay: LaunchItemToDisplay) {
+        val launch = allBookmarkedLaunches.find { it.id == launchItemToDisplay.id } ?: return
+        navigator.navigate(
+            LaunchDetailsScreenDestination(launch)
+        )
+    }
 }
 
 sealed interface BookmarkedUserEvent {
-    data class RemoveFromBookmarks(val launchItemToDisplay: LaunchItemToDisplay) : BookmarkedUserEvent
+    data class RemoveFromBookmarks(val launchItemToDisplay: LaunchItemToDisplay) :
+        BookmarkedUserEvent
+
+    data class OpenDetails(val navigator: DestinationsNavigator, val launch: LaunchItemToDisplay) :
+        BookmarkedUserEvent
 }

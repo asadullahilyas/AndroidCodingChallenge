@@ -1,8 +1,10 @@
 package com.thermondo.androidchallenge.features.core.domain.model
 
+import android.os.Parcelable
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
-@OptIn(ExperimentalStdlibApi::class)
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class Launch(
     val autoUpdate: Boolean,
@@ -32,4 +34,4 @@ data class Launch(
     val tbd: Boolean,
     val upcoming: Boolean,
     val window: Int?
-)
+) : Parcelable

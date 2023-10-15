@@ -1,12 +1,11 @@
 package com.thermondo.androidchallenge.common
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -26,21 +25,33 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.thermondo.androidchallenge.R
 import com.thermondo.androidchallenge.features.home.presentation.all_launches.LaunchItemToDisplay
-import com.thermondo.androidchallenge.ui.theme.ThemeColor
+import com.thermondo.androidchallenge.ui.theme.ContrastingColor
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun LaunchItem(modifier: Modifier = Modifier, launch: LaunchItemToDisplay, onBookmarkClicked: (() -> Unit)? = null) {
+fun LaunchItem(
+    modifier: Modifier = Modifier,
+    launch: LaunchItemToDisplay,
+    onBookmarkClicked: (() -> Unit)? = null,
+    onClicked: (() -> Unit)? = null
+) {
 
     Column(
-        modifier = modifier,
+        modifier = with(modifier) {
+            if (onClicked != null) {
+                then(
+                    Modifier.clickable(onClick = onClicked)
+                )
+            } else {
+                this
+            }
+        },
     ) {
         GlideImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1.0F)
-                .clip(shape = RoundedCornerShape(12.dp))
-                .border(width = 1.dp, shape = RoundedCornerShape(12.dp), color = ThemeColor),
+                .clip(shape = RoundedCornerShape(12.dp)),
             model = launch.imageUrl,
             contentScale = ContentScale.Crop,
             contentDescription = "Main image of launch",
@@ -65,7 +76,7 @@ fun LaunchItem(modifier: Modifier = Modifier, launch: LaunchItemToDisplay, onBoo
                 )
                 Text(
                     text = launch.title,
-                    color = ThemeColor,
+                    color = ContrastingColor,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,

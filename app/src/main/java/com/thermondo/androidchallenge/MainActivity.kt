@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.thermondo.androidchallenge.features.home.presentation.NavGraphs
+import com.thermondo.androidchallenge.features.NavGraphs
 import com.thermondo.androidchallenge.ui.theme.AndroidCodingChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 

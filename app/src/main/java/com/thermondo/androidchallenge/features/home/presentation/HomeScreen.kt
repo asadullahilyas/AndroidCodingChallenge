@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,16 +24,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.thermondo.androidchallenge.features.home.presentation.all_launches.AllLaunchesScreen
 import com.thermondo.androidchallenge.features.home.presentation.bookmarked_launches.BookmarkedLaunchesScreen
 import com.thermondo.androidchallenge.ui.theme.ContrastingColor
 import com.thermondo.androidchallenge.ui.theme.ThemeBackgroundColor
 import com.thermondo.androidchallenge.ui.theme.ThemeColor
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navigator: DestinationsNavigator) {
 
     val viewModel: HomeScreenViewModel = hiltViewModel()
 
@@ -44,8 +45,8 @@ fun HomeScreen() {
             .background(ThemeBackgroundColor)
     ) {
         when (homeScreenOption) {
-            HomeScreenOption.AllLaunches -> AllLaunchesScreen()
-            HomeScreenOption.BookmarkedLaunches -> BookmarkedLaunchesScreen()
+            HomeScreenOption.AllLaunches -> AllLaunchesScreen(navigator = navigator)
+            HomeScreenOption.BookmarkedLaunches -> BookmarkedLaunchesScreen(navigator = navigator)
         }
 
         Row(
@@ -105,7 +106,7 @@ fun HomeScreen() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Favorite,
+                        imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = "Show list of Bookmarked Launches",
                         tint = when (homeScreenOption) {
                             HomeScreenOption.AllLaunches -> Color.White
