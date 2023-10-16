@@ -35,4 +35,5 @@ Looking forward to your submission!
 
 ### Credits:
 Placeholder image being used was downloaded from https://cdn3.iconfinder.com/data/icons/business-solid/128/18-Launching-1024.png
+
 SpaceX logo icon was downloaded from https://www.svgrepo.com/svg/306770/spacex
