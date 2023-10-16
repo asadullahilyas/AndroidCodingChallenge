@@ -16,6 +16,7 @@ class HomeScreenViewModel @Inject constructor() : ViewModel() {
         when (homeScreenUserEvent) {
             HomeScreenUserEvent.GoToAllLaunches -> homeScreenOption.value = HomeScreenOption.AllLaunches
             HomeScreenUserEvent.GoToBookmarkedLaunches -> homeScreenOption.value = HomeScreenOption.BookmarkedLaunches
+            HomeScreenUserEvent.OnBackPressed -> homeScreenOption.value = HomeScreenOption.AllLaunches
         }
     }
 }
@@ -23,6 +24,7 @@ class HomeScreenViewModel @Inject constructor() : ViewModel() {
 sealed interface HomeScreenUserEvent {
     data object GoToAllLaunches : HomeScreenUserEvent
     data object GoToBookmarkedLaunches : HomeScreenUserEvent
+    data object OnBackPressed : HomeScreenUserEvent
 }
 
 enum class HomeScreenOption {

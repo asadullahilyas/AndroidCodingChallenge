@@ -55,7 +55,7 @@ fun LaunchItem(
             model = launch.imageUrl,
             contentScale = ContentScale.Crop,
             contentDescription = "Main image of launch",
-            loading = placeholder(R.drawable.ic_rocket_placeholder), // https://cdn3.iconfinder.com/data/icons/business-solid/128/18-Launching-1024.png
+            loading = placeholder(R.drawable.ic_rocket_placeholder),
             failure = placeholder(R.drawable.ic_rocket_placeholder),
             transition = CrossFade
         ) {

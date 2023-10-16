@@ -29,6 +29,14 @@ import com.thermondo.androidchallenge.ui.theme.ContrastingColor
 import com.thermondo.androidchallenge.ui.theme.ThemeBackgroundColor
 import com.thermondo.androidchallenge.ui.theme.ThemeColor
 
+/**
+ * HomeScreen hosts the bottom tab bar and two composable screens. One for showing all launches
+ * and one for showing all the bookmarked launches. One thing to note here is that, since it is a
+ * single screen, pressing back button was finishing this screen and taking user back to Application
+ * Drawer of Android. But I wanted to provide a user experience where if user is on bookmarked
+ * launches screen and he/she presses back, app brings them back to all launches screen. So I am
+ * achieving that by introducing a back pressed callback in my BookmarkedLaunchesScreen.
+ */
 @Destination
 @Composable
 fun HomeScreen(navigator: DestinationsNavigator) {
@@ -44,7 +52,9 @@ fun HomeScreen(navigator: DestinationsNavigator) {
     ) {
         when (homeScreenOption) {
             HomeScreenOption.AllLaunches -> AllLaunchesScreen(navigator = navigator)
-            HomeScreenOption.BookmarkedLaunches -> BookmarkedLaunchesScreen(navigator = navigator)
+            HomeScreenOption.BookmarkedLaunches -> BookmarkedLaunchesScreen(navigator = navigator) {
+                viewModel.onUserEvent(HomeScreenUserEvent.OnBackPressed)
+            }
         }
 
         Row(

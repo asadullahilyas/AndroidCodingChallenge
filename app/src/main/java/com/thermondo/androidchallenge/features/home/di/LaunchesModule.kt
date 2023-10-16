@@ -1,4 +1,4 @@
-package com.thermondo.androidchallenge.features.home.domain.di
+package com.thermondo.androidchallenge.features.home.di
 
 import com.thermondo.androidchallenge.api.ApiImpl
 import com.thermondo.androidchallenge.common.Settings

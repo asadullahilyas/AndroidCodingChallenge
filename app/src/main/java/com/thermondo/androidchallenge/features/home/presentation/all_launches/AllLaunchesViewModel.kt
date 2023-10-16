@@ -14,6 +14,8 @@ import com.thermondo.androidchallenge.features.home.domain.usecase.GetAllBookmar
 import com.thermondo.androidchallenge.features.home.domain.usecase.GetAllLaunchesUseCase
 import com.thermondo.androidchallenge.features.home.domain.usecase.ToggleBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -25,6 +27,8 @@ class AllLaunchesViewModel @Inject constructor(
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
     private val bookmarkedLaunchesUseCase: GetAllBookmarkedLaunchesUseCase
 ) : ViewModel() {
+
+    var coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
 
     private val allLaunches = mutableListOf<Launch>()
 
@@ -46,7 +50,7 @@ class AllLaunchesViewModel @Inject constructor(
     }
 
     private fun loadAllLaunches() {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineDispatcher) {
             allLaunchesUseCase().collect {
                 when (it) {
                     is Response.Error -> updateUiOnError(it.message ?: "Unknown error occurred.")
@@ -78,7 +82,7 @@ class AllLaunchesViewModel @Inject constructor(
 
     private fun toggleBookmark(launchItemToDisplay: LaunchItemToDisplay) {
         val launch = allLaunches.find { it.id == launchItemToDisplay.id } ?: return
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineDispatcher) {
             toggleBookmarkUseCase(launch, launchItemToDisplay.isBookmarked.not())
             allLaunchesToDisplay.set(
                 allLaunchesToDisplay.indexOfFirst { it == launchItemToDisplay },

@@ -1,7 +1,7 @@
 package com.thermondo.androidchallenge.features.home.presentation.bookmarked_launches
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -19,11 +19,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.thermondo.androidchallenge.common.LaunchItem
 
+/**
+ * This screen is loads all the bookmarked launches saved in DataStore and shows them to user.
+ * @param onBackPressed: This param is used to delegate back press from this screen to HomeScreen.
+ */
 @Composable
 fun BookmarkedLaunchesScreen(
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    onBackPressed: () -> Unit
 ) {
+    BackHandler {
+        onBackPressed()
+    }
+
     val viewModel: BookmarkedLaunchesViewModel = hiltViewModel()
 
     LaunchedEffect(key1 = Unit) {
@@ -43,7 +52,7 @@ fun BookmarkedLaunchesScreen(
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),
-                text = "No bookmarked items found",
+                text = "No items found",
                 color = Color.Gray
             )
         } else {

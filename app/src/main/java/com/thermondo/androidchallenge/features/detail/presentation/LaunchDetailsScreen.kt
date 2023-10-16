@@ -23,7 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,6 +37,7 @@ import com.bumptech.glide.integration.compose.placeholder
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.thermondo.androidchallenge.R
+import com.thermondo.androidchallenge.common.isNullOrEmptyOrBlank
 import com.thermondo.androidchallenge.features.core.domain.model.Launch
 import com.thermondo.androidchallenge.ui.theme.ContrastingColor
 import com.thermondo.androidchallenge.ui.theme.ThemeBackgroundColor
@@ -76,7 +80,7 @@ fun LaunchDetailsScreen(
                         model = images[page],
                         contentScale = ContentScale.Crop,
                         contentDescription = "Image number $page",
-                        loading = placeholder(R.drawable.ic_rocket_placeholder), // https://cdn3.iconfinder.com/data/icons/business-solid/128/18-Launching-1024.png
+                        loading = placeholder(R.drawable.ic_rocket_placeholder),
                         failure = placeholder(R.drawable.ic_rocket_placeholder),
                         transition = CrossFade
                     ) {
@@ -122,6 +126,7 @@ fun LaunchDetailsScreen(
                             text = launch.name.uppercase(),
                             color = ContrastingColor,
                             fontSize = 24.sp,
+                            fontFamily = FontFamily(Font(R.font.overpass_regular)),
                             fontWeight = FontWeight.Bold
                         )
 
@@ -155,10 +160,18 @@ fun LaunchDetailsScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            launch.details?.let {
+            if (launch.details.isNullOrEmptyOrBlank()) {
+                Text(
+                    modifier = Modifier.fillMaxSize().padding(top = 100.dp),
+                    textAlign = TextAlign.Center,
+                    text = "No details available",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            } else {
                 Text(
                     modifier = Modifier.padding(horizontal = 20.dp),
-                    text = it,
+                    text = launch.details!!,
                     fontSize = 14.sp,
                     color = Color.White
                 )
